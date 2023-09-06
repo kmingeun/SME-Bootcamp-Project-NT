@@ -332,37 +332,7 @@
     </div>
   </div>
 
-  <div class="selectModal-signup" v-if="협업유형도움말모달창==true">
-      <span class="">결과</span>
-      <span>결과
-- LVG
-"팀을 이끄는 리더형입니다. 당신은 상하관계가 짜여지고 조직적으로 움직이는 팀에 잘 어울려요! 또한 일을 수행함에 있어 과정보다는 결과를 중요시하는 스타일입니다."
-
-- LVP
-"팀을 이끄는 리더형입니다. 당신은 상하관계가 짜여지고 조직적으로 움직이는 팀에 잘 어울려요! 또한 일을 수행함에 있어 결과보다는 과정을 중요시하는 스타일입니다."
-
-- LHG 
-"팀을 이끄는 리더형입니다. 당신은 자유로운 수평적인 조직에 잘 어울려요! 또한 일을 수행함에 있어 과정보다는 결과를 중요시하는 스타일입니다."
-
-- LHP 
-"팀을 이끄는 리더형입니다. 당신은 자유로운 수평적인 조직에 잘 어울려요! 또한 일을 수행함에 있어 결과보다는 과정을 중요시하는 스타일입니다."
-
-- TVG
-"팀의 추진력인 팀원형입니다. 당신은 상하관계가 짜여지고 조직적으로 움직이는 팀에 잘 어울려요! 또한 일을 수행함에 있어 과정보다는 결과를 중요시하는 스타일입니다."
-
-- TVP
-"팀의 추진력인 팀원형입니다. 당신은 상하관계가 짜여지고 조직적으로 움직이는 팀에 잘 어울려요! 또한 일을 수행함에 있어 결과보다는 과정을 중요시하는 스타일입니다."
-
-- THG
-"팀의 추진력인 팀원형입니다. 당신은 자유로운 수평적인 조직에 잘 어울려요! 또한 일을 수행함에 있어 과정보다 결과를 중요시하는 스타일입니다."
-
-- THP
-"팀의 추진력인 팀원형입니다. 당신은 자유로운 수평적인 조직에 잘 어울려요! 또한 일을 수행함에 있어 결과보다 과정을 중요시하는 스타일입니다."
-</span>
-      <div class="selectModalBtn-signup">
-          <button class="selectModalBtn1-signup" @click="선택완료모달창=false">확인</button>
-      </div>
-  </div>
+  
 </template>
 
 <script>
@@ -377,7 +347,6 @@ export default {
       renderedMarkdown: "",
       소개란작성모달창: false,
       미리보기모달창: false,
-      협업유형도움말모달창: false,
       모달창로고: false,
 
       //이 부분은 get으로 들고오는 부분
@@ -445,9 +414,7 @@ export default {
         });
         
     },
-    cooperationTypeModal() {
-      this.협업유형도움말모달창= true;
-  },
+    
   },
 };
 </script>
@@ -910,40 +877,5 @@ body {
     position: relative;
     top: 1px;
   }
-
-
-  /* 협업유형 도움말 모달창 */
-
-  .selectModal-signup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fcfcff;
-  padding: 30px 20px 20px 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  color: #2c2c2c;
-  font-weight: 600;
-}
-
-
-.selectModalBtn-signup {
-  display: flex;
-  justify-content: center;
-}
-.selectModalBtn1-signup {
-  color:rgb(255, 255, 255);
-  font-size:14px;
-  font-weight:600;
-  margin-top:15px;
-  width:700px;
-  height:300px;
-  background:#2b64ff;
-  border-radius: 5px;
-  border:none;
-}
 }
 </style>

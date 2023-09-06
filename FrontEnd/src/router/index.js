@@ -13,6 +13,7 @@ import showPost3 from '../views/showPost3.vue';
 import showPost4 from '../views/showPost4.vue'; 
 import recruitmentPage from '../views/recruitmentPage.vue';
 import passwordChange from '../views/passwordChange.vue';
+import showPostAll from '../views/showPostAll.vue';
 
 
 
@@ -38,6 +39,7 @@ const routes = [
     { path: '/showPost4', name:'showPost4', component: showPost4 },
     { path: '/recruitmentPage', name:'recruitmentPage', component: recruitmentPage },
     { path: '/passwordChange/:token', name:'passwordChange', component: passwordChange },
+    { path: '/post/:id', name:'showPostAll', component: showPostAll },
   ];
 
 // 라우터 생성

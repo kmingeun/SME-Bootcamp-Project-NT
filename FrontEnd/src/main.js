@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // 라우터를 애플리케이션에 연결
 app.use(router);
+
 app.use(store);
 
 // 애플리케이션을 마운트
