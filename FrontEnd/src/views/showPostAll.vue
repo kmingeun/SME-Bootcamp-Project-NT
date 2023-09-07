@@ -1,6 +1,6 @@
 <template>
   <!--showpost1-->
-  <div v-if="showpost===1" class="showpostAll">
+  <div v-if="showpost === 1" class="showpostAll">
     <div class="navBar">
       <div class="ham">
         <svg
@@ -120,23 +120,21 @@
           </svg>
           <a>Logout</a>
         </div>
-        <button class="SignInBtn">Home</button>
+        <button @click="navigateTomainpageLoginPage()" class="SignInBtn">
+          Home
+        </button>
       </div>
     </div>
 
     <!--윗쪽 소개/이미지란-->
     <div class="MainHead">
       <div class="Text">
-        <div class="Bold">[부산] 프로젝트 팀 매칭 서비스</div>
-        <div class="HeadName">닉네임</div>
+        <div class="Bold">[{{ Area }}] - {{ ProjectName }}</div>
+        <div class="HeadName">{{ Name }}</div>
       </div>
 
       <div>
-        <img
-          class="Img"
-          src="https://s3-alpha-sig.figma.com/img/9fce/4822/3800db887d708bbd45d70cc5e514fc90?Expires=1692576000&Signature=gd5gDwt0FqR92YbRAonbMA2tdXCsLXj1k31cvQ93pd-IQRSuzPPTBo31slR52IZCWFJGgXNv7JgcMbHQUzOxpP-JOZGE1wX5Axfy30NHHnB4XAkAuKQFqemnY~kgVtEo8AGiIeapf357T3FG1Ktr1b48yW5wyusf~F8gSWQghXR5Cwh6d79y2Zn7rE7ot7CMpboMPmNFxeE9EBLV7h~R20XoRqdGoOpYb~eKvraiz2XDukAKHwyqGiI1JsH4ffUgGmNiyxXbEaEMbmV29fy9bfqP6eVrLCYmonqTEiFPxzqItnBrOcijzk0BcZYOkvEN95D7nDjBpJKC5rDP7QIg6g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-          alt="이미지"
-        />
+        <img class="Img" src="/images/MainScreen.jpg" alt="이미지" />
       </div>
     </div>
 
@@ -166,26 +164,22 @@
           </div>
 
           <div class="Choice">
-            <div class="choice-1">
-              <span class="ChoiceText">웹프론트엔드</span>
-              <span class="ChoiceNumber">0/2</span>
+            <div
+              v-for="(recruit, index) in recruits"
+              :key="index"
+              :class="'choice-' + (index + 1)"
+            >
+              <span class="ChoiceText">{{ recruit.Subfield }}</span>
+              <span class="ChoiceNumber"
+                >{{ recruit.AcceptedMembers }}/{{ recruit.NumofRole }}</span
+              >
               <span>
-                <button class="ChoiceButton">선택</button>
-              </span>
-            </div>
-
-            <div class="choice-2">
-              <span class="ChoiceText">웹 서버</span>
-              <span class="ChoiceNumber">0/2</span>
-              <span>
-                <button class="ChoiceButton">선택</button>
-              </span>
-            </div>
-            <div class="choice-3">
-              <span class="ChoiceText">UI/UX기획</span>
-              <span class="ChoiceNumber">0/1</span>
-              <span>
-                <button class="ChoiceButton">선택</button>
+                <button
+                  class="ChoiceButton"
+                  @click="selectRecruit(recruit.Subfield)"
+                >
+                  선택
+                </button>
               </span>
             </div>
           </div>
@@ -194,6 +188,7 @@
         <!--왼쪽 박스 중 아랫 부분-->
         <div class="Bottom">
           <div class="Status">프로젝트 소개</div>
+          <div>{{ Description }}</div>
         </div>
       </div>
 
@@ -233,7 +228,7 @@
                 </svg>
               </div>
 
-              <div class="Name-showpost1">닉네임</div>
+              <div class="Name-showpost1">{{ Name }}</div>
 
               <div>
                 <button class="LeaderButton-showpost1">프로필보기</button>
@@ -243,17 +238,19 @@
 
           <div class="Box">
             <div class="BoldText">프로젝트 기간</div>
-            <div class="OriginText">프로젝트 팀 매칭 후 약 4개월</div>
+            <div class="OriginText">
+              {{ formatDate(StartDate) }} ~ {{ formatDate(EndDate) }}
+            </div>
           </div>
 
           <div class="Box">
             <div class="BoldText">프로젝트 분야</div>
-            <div class="OriginText">소셜 네트워크</div>
+            <div class="OriginText">{{ Field }}</div>
           </div>
 
           <div class="Box">
             <div class="BoldText">기술/언어</div>
-            <div class="OriginText">java, spring, MongoDB</div>
+            <div class="OriginText">{{ Tech }}</div>
           </div>
         </div>
       </div>
@@ -331,7 +328,10 @@
     <div class="selectModal" v-if="지원하기모달창 == true">
       <span class="">지원하시겠습니까?</span>
       <div class="selectModalBtn">
-        <button class="selectModalBtn1" @click="지원하기모달창 = false">
+        <button
+          class="selectModalBtn1"
+          @click="sendSelection(selectedSubfield)"
+        >
           예
         </button>
         <button class="selectModalBtn2" @click="지원하기모달창 = false">
@@ -341,15 +341,8 @@
     </div>
   </div>
 
-
-
-
-
-
-
-
   <!--showpost2-->
-  <div v-if="showpost===2" class="showpost2All">
+  <div v-if="showpost === 2" class="showpost2All">
     <!--헤더부분-->
     <div class="navBar">
       <div class="ham">
@@ -470,23 +463,21 @@
           </svg>
           <a>Logout</a>
         </div>
-        <button class="SignInBtn">Home</button>
+        <button @click="navigateTomainpageLoginPage()" class="SignInBtn">
+          Home
+        </button>
       </div>
     </div>
 
     <!--윗쪽 소개/이미지란-->
     <div class="MainHead">
       <div class="Text">
-        <div class="Bold">[부산] 프로젝트 팀 매칭 서비스</div>
-        <div class="HeadName">닉네임</div>
+        <div class="Bold">[{{ Area }}] - {{ ProjectName }}</div>
+        <div class="HeadName">{{ Name }}</div>
       </div>
 
       <div>
-        <img
-          class="Img"
-          src="https://s3-alpha-sig.figma.com/img/9fce/4822/3800db887d708bbd45d70cc5e514fc90?Expires=1692576000&Signature=gd5gDwt0FqR92YbRAonbMA2tdXCsLXj1k31cvQ93pd-IQRSuzPPTBo31slR52IZCWFJGgXNv7JgcMbHQUzOxpP-JOZGE1wX5Axfy30NHHnB4XAkAuKQFqemnY~kgVtEo8AGiIeapf357T3FG1Ktr1b48yW5wyusf~F8gSWQghXR5Cwh6d79y2Zn7rE7ot7CMpboMPmNFxeE9EBLV7h~R20XoRqdGoOpYb~eKvraiz2XDukAKHwyqGiI1JsH4ffUgGmNiyxXbEaEMbmV29fy9bfqP6eVrLCYmonqTEiFPxzqItnBrOcijzk0BcZYOkvEN95D7nDjBpJKC5rDP7QIg6g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-          alt="이미지"
-        />
+        <img class="Img" src="/images/MainScreen.jpg" alt="이미지" />
       </div>
     </div>
 
@@ -516,26 +507,22 @@
           </div>
 
           <div class="Choice">
-            <div class="choice-1">
-              <span class="ChoiceText">웹프론트엔드</span>
-              <span class="ChoiceNumber">0/2</span>
+            <div
+              v-for="(recruit, index) in recruits"
+              :key="index"
+              :class="'choice-' + (index + 1)"
+            >
+              <span class="ChoiceText">{{ recruit.Subfield }}</span>
+              <span class="ChoiceNumber"
+                >{{ recruit.AcceptedMembers }}/{{ recruit.NumofRole }}</span
+              >
               <span>
-                <button class="ChoiceButton">선택</button>
-              </span>
-            </div>
-
-            <div class="choice-2">
-              <span class="ChoiceText">웹 서버</span>
-              <span class="ChoiceNumber">0/2</span>
-              <span>
-                <button class="ChoiceButton">선택</button>
-              </span>
-            </div>
-            <div class="choice-3">
-              <span class="ChoiceText">UI/UX기획</span>
-              <span class="ChoiceNumber">0/1</span>
-              <span>
-                <button class="ChoiceButton">선택</button>
+                <button
+                  class="ChoiceButton"
+                  @click="selectRecruit(recruit.Subfield)"
+                >
+                  선택
+                </button>
               </span>
             </div>
           </div>
@@ -544,6 +531,7 @@
         <!--왼쪽 박스 중 아랫 부분-->
         <div class="Bottom">
           <div class="Status">프로젝트 소개</div>
+          <div>{{ Description }}</div>
         </div>
       </div>
 
@@ -583,7 +571,7 @@
                 </svg>
               </div>
 
-              <div class="Name-showpost2">닉네임</div>
+              <div class="Name-showpost2">{{ Name }}</div>
 
               <div>
                 <button class="LeaderButton-showpost2">프로필보기</button>
@@ -593,17 +581,19 @@
 
           <div class="Box">
             <div class="BoldText">프로젝트 기간</div>
-            <div class="OriginText">프로젝트 팀 매칭 후 약 4개월</div>
+            <div class="OriginText">
+              {{ formatDate(StartDate) }} ~ {{ formatDate(EndDate) }}
+            </div>
           </div>
 
           <div class="Box">
             <div class="BoldText">프로젝트 분야</div>
-            <div class="OriginText">소셜 네트워크</div>
+            <div class="OriginText">{{ Field }}</div>
           </div>
 
           <div class="Box">
             <div class="BoldText">기술/언어</div>
-            <div class="OriginText">java, spring, MongoDB</div>
+            <div class="OriginText">{{ Tech }}</div>
           </div>
         </div>
       </div>
@@ -611,7 +601,11 @@
 
     <!--아래 버튼-->
     <div class="Button-showpost2">
-      <div><button class="JoinButton-showpost2">취소하기</button></div>
+      <div>
+        <button class="JoinButton-showpost2" @click="cancelApply()">
+          취소하기
+        </button>
+      </div>
       <div><button class="LookButton-showpost2">더 둘러보기</button></div>
     </div>
 
@@ -675,15 +669,8 @@
     </div>
   </div>
 
-
-
-
-
-
-
-
-<!--showpost3-->
-<div v-if="showpost===3" class="showpost3All">
+  <!--showpost3-->
+  <div v-if="showpost === 3" class="showpost3All">
     <!--헤더부분-->
     <div class="navBar">
       <div class="ham">
@@ -804,23 +791,21 @@
           </svg>
           <a>Logout</a>
         </div>
-        <button class="SignInBtn">Home</button>
+        <button @click="navigateTomainpageLoginPage()" class="SignInBtn">
+          Home
+        </button>
       </div>
     </div>
 
     <!--윗쪽 소개/이미지란-->
     <div class="MainHead">
       <div class="Text">
-        <div class="Bold">[부산] 프로젝트 팀 매칭 서비스</div>
-        <div class="HeadName">닉네임</div>
+        <div class="Bold">[{{ Area }}] - {{ ProjectName }}</div>
+        <div class="HeadName">{{ Name }}</div>
       </div>
 
       <div>
-        <img
-          class="Img"
-          src="https://s3-alpha-sig.figma.com/img/9fce/4822/3800db887d708bbd45d70cc5e514fc90?Expires=1692576000&Signature=gd5gDwt0FqR92YbRAonbMA2tdXCsLXj1k31cvQ93pd-IQRSuzPPTBo31slR52IZCWFJGgXNv7JgcMbHQUzOxpP-JOZGE1wX5Axfy30NHHnB4XAkAuKQFqemnY~kgVtEo8AGiIeapf357T3FG1Ktr1b48yW5wyusf~F8gSWQghXR5Cwh6d79y2Zn7rE7ot7CMpboMPmNFxeE9EBLV7h~R20XoRqdGoOpYb~eKvraiz2XDukAKHwyqGiI1JsH4ffUgGmNiyxXbEaEMbmV29fy9bfqP6eVrLCYmonqTEiFPxzqItnBrOcijzk0BcZYOkvEN95D7nDjBpJKC5rDP7QIg6g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-          alt="이미지"
-        />
+        <img class="Img" src="/images/MainScreen.jpg" alt="이미지" />
       </div>
     </div>
 
@@ -850,36 +835,20 @@
           </div>
 
           <div class="Choice">
-            <div class="choice-1">
-              <span class="ChoiceText">웹프론트엔드</span>
+            <div
+              v-for="(recruit, index) in recruits"
+              :key="index"
+              :class="'choice-' + (index + 1)"
+            >
+              <span class="ChoiceText">{{ recruit.Subfield }}</span>
               <span class="ChoiceNumber"
-                >{{ choiceNumber }}/{{ maxChoiceNumber }}</span
+                >{{ recruit.AcceptedMembers }}/{{ recruit.NumofRole }}</span
               >
               <span>
-                <button class="ChoiceButton" @click="incrementChoiceNumber">
-                  선택
-                </button>
-              </span>
-            </div>
-
-            <div class="choice-2">
-              <span class="ChoiceText">웹 서버</span>
-              <span class="ChoiceNumber"
-                >{{ choiceNumber }}/{{ maxChoiceNumber }}</span
-              >
-              <span>
-                <button class="ChoiceButton" @click="incrementChoiceNumber">
-                  선택
-                </button>
-              </span>
-            </div>
-            <div class="choice-3">
-              <span class="ChoiceText">UI/UX기획</span>
-              <span class="ChoiceNumber"
-                >{{ choiceNumber }}/{{ maxChoiceNumber }}</span
-              >
-              <span>
-                <button class="ChoiceButton" @click="incrementChoiceNumber">
+                <button
+                  @click="selectRecruit(recruit.Subfield)"
+                  class="ChoiceButton"
+                >
                   선택
                 </button>
               </span>
@@ -890,6 +859,7 @@
         <!--왼쪽 박스 중 아랫 부분-->
         <div class="Bottom">
           <div class="Status">프로젝트 소개</div>
+          <div>{{ Description }}</div>
         </div>
       </div>
 
@@ -929,25 +899,26 @@
                 </svg>
               </div>
 
-              <div class="Name">닉네임</div>
-
+              <div class="Name">{{ Name }}</div>
               <button class="LeaderButton">프로필보기</button>
             </div>
           </div>
 
           <div class="Box">
             <div class="BoldText">프로젝트 기간</div>
-            <div class="OriginText">프로젝트 팀 매칭 후 약 4개월</div>
+            <div class="OriginText">
+              {{ formatDate(StartDate) }} ~ {{ formatDate(EndDate) }}
+            </div>
           </div>
 
           <div class="Box">
             <div class="BoldText">프로젝트 분야</div>
-            <div class="OriginText">소셜 네트워크</div>
+            <div class="OriginText">{{ Field }}</div>
           </div>
 
           <div class="Box">
             <div class="BoldText">기술/언어</div>
-            <div class="OriginText">java, spring, MongoDB</div>
+            <div class="OriginText">{{ Tech }}</div>
           </div>
 
           <div class="memberBtn-div">
@@ -1062,7 +1033,7 @@
                   </defs>
                 </svg>
               </div>
-              <div class="Name">닉네임</div>
+              <div class="Name">{{ Name }}</div>
 
               <button class="LeaderButton">프로필보기</button>
             </div>
@@ -1213,7 +1184,7 @@
         <div class="main1">
           <div class="memberText">지원현황</div>
           <div class="modalGrid">
-            <div class="LeaderProfileModal">
+            <div class="LeaderProfileModal" v-for="(apply, index) in applies" :key="index">
               <div>
                 <svg
                   class="HumanIcon-showpost3"
@@ -1242,7 +1213,8 @@
                   </defs>
                 </svg>
               </div>
-              <div class="Name">닉네임</div>
+              <div class="Name">{{ apply.Name }}</div>
+              <div class="Subfield">{{ apply.Subfield }}</div>
               <button class="LeaderButton">프로필보기</button>
               <div class="acceptBtnDiv-showpost3">
                 <button class="acceptBtn-showpost3">수락</button>
@@ -1391,16 +1363,8 @@
     </div>
   </div>
 
-
-
-  
-
-
-
-
-
-<!--showpost4-->
-<div v-if="showpost===4" class="showpost4All">
+  <!--showpost4-->
+  <div v-if="showpost === 4" class="showpost4All">
     <!--헤더부분-->
     <div class="navBar">
       <div class="ham">
@@ -1521,23 +1485,21 @@
           </svg>
           <a>Logout</a>
         </div>
-        <button class="SignInBtn">Home</button>
+        <button @click="navigateTomainpageLoginPage()" class="SignInBtn">
+          Home
+        </button>
       </div>
     </div>
 
     <!--윗쪽 소개/이미지란-->
     <div class="MainHead">
       <div class="Text">
-        <div class="Bold">[부산] 프로젝트 팀 매칭 서비스</div>
-        <div class="HeadName">닉네임</div>
+        <div class="Bold">[{{ Area }}] - {{ ProjectName }}</div>
+        <div class="HeadName">{{ Name }}</div>
       </div>
 
       <div>
-        <img
-          class="Img"
-          src="https://s3-alpha-sig.figma.com/img/9fce/4822/3800db887d708bbd45d70cc5e514fc90?Expires=1692576000&Signature=gd5gDwt0FqR92YbRAonbMA2tdXCsLXj1k31cvQ93pd-IQRSuzPPTBo31slR52IZCWFJGgXNv7JgcMbHQUzOxpP-JOZGE1wX5Axfy30NHHnB4XAkAuKQFqemnY~kgVtEo8AGiIeapf357T3FG1Ktr1b48yW5wyusf~F8gSWQghXR5Cwh6d79y2Zn7rE7ot7CMpboMPmNFxeE9EBLV7h~R20XoRqdGoOpYb~eKvraiz2XDukAKHwyqGiI1JsH4ffUgGmNiyxXbEaEMbmV29fy9bfqP6eVrLCYmonqTEiFPxzqItnBrOcijzk0BcZYOkvEN95D7nDjBpJKC5rDP7QIg6g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-          alt="이미지"
-        />
+        <img class="Img" src="/images/MainScreen.jpg" alt="이미지" />
       </div>
     </div>
 
@@ -1567,36 +1529,20 @@
           </div>
 
           <div class="Choice">
-            <div class="choice-1">
-              <span class="ChoiceText">웹프론트엔드</span>
+            <div
+              v-for="(recruit, index) in recruits"
+              :key="index"
+              :class="'choice-' + (index + 1)"
+            >
+              <span class="ChoiceText">{{ recruit.Subfield }}</span>
               <span class="ChoiceNumber"
-                >{{ choiceNumber }}/{{ maxChoiceNumber }}</span
+                >{{ recruit.AcceptedMembers }}/{{ recruit.NumofRole }}</span
               >
               <span>
-                <button class="ChoiceButton" @click="incrementChoiceNumber">
-                  선택
-                </button>
-              </span>
-            </div>
-
-            <div class="choice-2">
-              <span class="ChoiceText">웹 서버</span>
-              <span class="ChoiceNumber"
-                >{{ choiceNumber }}/{{ maxChoiceNumber }}</span
-              >
-              <span>
-                <button class="ChoiceButton" @click="incrementChoiceNumber">
-                  선택
-                </button>
-              </span>
-            </div>
-            <div class="choice-3">
-              <span class="ChoiceText">UI/UX기획</span>
-              <span class="ChoiceNumber"
-                >{{ choiceNumber }}/{{ maxChoiceNumber }}</span
-              >
-              <span>
-                <button class="ChoiceButton" @click="incrementChoiceNumber">
+                <button
+                  @click="selectRecruit(recruit.Subfield)"
+                  class="ChoiceButton"
+                >
                   선택
                 </button>
               </span>
@@ -1607,6 +1553,7 @@
         <!--왼쪽 박스 중 아랫 부분-->
         <div class="Bottom">
           <div class="Status">프로젝트 소개</div>
+          <div>{{ Description }}</div>
         </div>
       </div>
 
@@ -1654,17 +1601,19 @@
 
           <div class="Box">
             <div class="BoldText">프로젝트 기간</div>
-            <div class="OriginText">프로젝트 팀 매칭 후 약 4개월</div>
+            <div class="OriginText">
+              {{ formatDate(StartDate) }} ~ {{ formatDate(EndDate) }}
+            </div>
           </div>
 
           <div class="Box">
             <div class="BoldText">프로젝트 분야</div>
-            <div class="OriginText">소셜 네트워크</div>
+            <div class="OriginText">{{ Field }}</div>
           </div>
 
           <div class="Box">
             <div class="BoldText">기술/언어</div>
-            <div class="OriginText">java, spring, MongoDB</div>
+            <div class="OriginText">{{ Tech }}</div>
           </div>
 
           <div class="memberBtn-div">
@@ -1923,55 +1872,59 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-
 </template>
 
-
 <script>
-import axios from 'axios';
+import axios from "axios";
 
-export default{ 
-
-  components:{},
-  data(){
-    return{
+export default {
+  components: {},
+  data() {
+    return {
       지원하기모달창: false, //showpost1
       choiceNumber: 0, //showpost3
       maxChoiceNumber: 3, //showpost3
       멤버현황모달창: false, //showpost3
       지원현황모달창: false, //showpost3
-      showpost:1,
+      showpost: 1,
+      Name: "",
+      Area: "",
+      Description: "",
+      Field: "",
+      Leader: "",
+      ProjectName: "",
+      StartDate: "",
+      EndDate: "",
+      Tech: "",
+      recruits: [],
+      selectedSubfield: null,
+      applies: [],
     };
   },
-  setup(){},
-  created(){
-
+  setup() {},
+  created() {
     axios
-  .get('http://localhost:3000/project/showPost', {
-    withCredentials: true, // 쿠키 정보를 요청에 포함합니다.
-  })
-  .then((response) => {
-    // 요청이 성공하면 받아온 데이터의 showpost 값을 변수에 설정합니다.
-    this.showpost = response.data.showpost;
-  })
-  .catch((error) => {
-    console.error('GET 요청 오류:', error);
-  });
-
+      .get("http://localhost:3000/project/showPost", {
+        withCredentials: true, // 쿠키 정보를 요청에 포함합니다.
+        params: {
+          id: this.$route.query.id,
+        },
+      })
+      .then((response) => {
+        // 요청이 성공하면 받아온 데이터의 showpost 값을 변수에 설정합니다.
+        console.log(response.data);
+        this.showpost = response.data.postType;
+      })
+      .catch((error) => {
+        console.error("GET 요청 오류:", error);
+      });
   },
 
-  mounted(){},
-  unmounted(){},
-  methods:{
+  mounted() {
+    this.fetchData();
+  },
+  unmounted() {},
+  methods: {
     //showpost3 start
     incrementChoiceNumber() {
       if (this.choiceNumber < this.maxChoiceNumber) {
@@ -1998,26 +1951,152 @@ export default{
     },
     //showpost3 end
 
+    navigateTomainpageLoginPage() {
+      // 지정한 라우터로 이동합니다
+      this.$router.push("/mainpageLogin"); // '/LoginPage'는 이동하고자 하는 라우터 경로로 변경해야 합니다
+    },
+    formatDate(date) {
+      // 날짜 포맷팅 함수 작성 (예: YYYY-MM-DD)
+      const formattedDate = date.split("T")[0];
+      return formattedDate;
+    },
+    fetchData() {
+      // 서버로 GET 요청을 보냅니다. '/api/userProfile'는 실제 API 엔드포인트에 맞게 변경하세요.
+      axios.defaults.withCredentials = true;
+      axios
+        .get("http://localhost:3000/project/getProjectInfo", {
+          // 쿠키 정보를 요청에 포함합니다.
+          params: {
+            id: this.$route.query.id,
+          },
+        })
+        .then((response) => {
+          // 서버에서 받은 데이터를 데이터 변수에 할당합니다.
+          const post = response.data;
+          this.Area = post.Area;
+          this.Description = post.Description;
+          this.EndDate = post.EndDate;
+          this.Field = post.Field;
+          this.Leader = post.Leader;
+          this.ProjectName = post.ProjectName;
+          this.StartDate = post.StartDate;
+          this.Tech = post.Tech;
+        })
 
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+          // 에러 처리를 수행하세요.
+        });
 
+      axios
+        .get("http://localhost:3000/user/getLeaderInfo", {
+          // 쿠키 정보를 요청에 포함합니다.
+          params: {
+            id: this.$route.query.id,
+          },
+        })
+        .then((response) => {
+          // 서버에서 받은 데이터를 데이터 변수에 할당합니다.
+          const post = response.data;
+          this.Name = post.leaderName;
+        })
 
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+          // 에러 처리를 수행하세요.
+        });
 
+      axios
+        .get("http://localhost:3000/recruit/getRecruitInfo", {
+          withCredentials: true, // 쿠키 정보를 요청에 포함합니다.
+          params: {
+            id: this.$route.query.id,
+          },
+        })
+        .then((response) => {
+          // 서버에서 받은 데이터를 데이터 변수에 할당합니다.
+          const post = response.data;
+          this.recruits = post.results;
+        })
 
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+          // 에러 처리를 수행하세요.
+        });
+      axios
+        .get("http://localhost:3000/recruit/currentApply", {
+          withCredentials: true, // 쿠키 정보를 요청에 포함합니다.
+          params: {
+            id: this.$route.query.id,
+          },
+        })
+        .then((response) => {
+          // 서버에서 받은 데이터를 데이터 변수에 할당합니다.
+          const post = response.data;
+          this.applies = post.results;
+          console.log(this.applies[0]);
+        })
 
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+          // 에러 처리를 수행하세요.
+        });
+    },
+    selectRecruit(subfield) {
+      this.selectedSubfield = subfield; // 선택한 subfield 값을 저장
+    },
+
+    sendSelection(subfield) {
+      axios.defaults.withCredentials = true;
+      axios
+        .post("http://localhost:3000/recruit/apply", {
+          projectId: this.$route.query.id,
+          appliedSubfield: subfield,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("지원이 완료되었습니다.");
+            // 지원이 성공한 경우 알림창 또는 다른 액션을 추가로 수행할 수 있습니다.
+            alert("지원이 완료되었습니다.");
+            this.지원하기모달창 = false;
+            location.reload();
+          }
+        })
+        .catch((error) => {
+          // 오류 처리
+          console.error("POST 요청 중 오류 발생:", error);
+        });
+    },
+    cancelApply() {
+      axios.defaults.withCredentials = true;
+      axios
+        .post("http://localhost:3000/recruit/cancleApply", {
+          projectId: this.$route.query.id,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("지원이 취소되었습니다.");
+            // 지원이 성공한 경우 알림창 또는 다른 액션을 추가로 수행할 수 있습니다.
+            alert("지원이 취소되었습니다.");
+            this.지원하기모달창 = false;
+            location.reload();
+          }
+        })
+        .catch((error) => {
+          // 오류 처리
+          console.error("POST 요청 중 오류 발생:", error);
+        });
+    },
 
     //showpost4 start
-    
+
     //showpost4 end
-
-
-  }
-
-}
+  },
+};
 </script>
 
 <style>
-
- /*showpost1 */
+/*showpost1 */
 @font-face {
   font-family: "yg-jalnan";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
@@ -2209,34 +2288,25 @@ body {
   font-weight: 400;
   line-height: 30px;
 }
-.choice-1 {
+.Choice {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.choice-2 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.choice-3 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
 }
 
 .ChoiceText {
   color: #4a4a4a;
   font-size: 13px;
   font-weight: 400;
-  line-height: 30px;
 }
+
 .ChoiceNumber {
   color: #fb5660;
   font-size: 13px;
   font-weight: 400;
   line-height: 18px;
 }
+
 .ChoiceButton {
   border-radius: 8px;
   border: 1px solid #bababa;
@@ -2395,21 +2465,7 @@ body {
   border: none;
   cursor: pointer;
 }
- /*showpost1 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*showpost1 */
 
 /*showpost2 */
 @font-face {
@@ -2606,17 +2662,14 @@ body {
 .choice-1 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 .choice-2 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 .choice-3 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .ChoiceText {
@@ -2739,16 +2792,6 @@ body {
 }
 
 /* showpost2 */
-
-
-
-
-
-
-
-
-
-
 
 /* showpost3 */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
@@ -2933,24 +2976,21 @@ body {
 }
 .One-showpost3 {
   color: #b1b1b1;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 30px;
 }
 .choice-1 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 .choice-2 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 .choice-3 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .ChoiceText {
@@ -3181,28 +3221,6 @@ body {
   cursor: pointer;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* showpost4 */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
 
@@ -3381,8 +3399,9 @@ body {
 }
 .Status {
   color: #000;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 400;
+  margin: 10px 0px 10px 0px;
 }
 .One-showpost4 {
   color: #b1b1b1;
@@ -3390,33 +3409,20 @@ body {
   font-weight: 400;
   line-height: 30px;
 }
-.choice-1 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.choice-2 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.choice-3 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
 .ChoiceText {
   color: #4a4a4a;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 30px;
+  margin-right: 60px;
 }
 .ChoiceNumber {
   color: #fb5660;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 18px;
+  margin-right: 60px;
 }
 .ChoiceButton {
   border-radius: 8px;
@@ -3468,15 +3474,13 @@ body {
 /*프로젝트 소개란 추가 후 아래 패딩 수정 필요*/
 .Bottom {
   padding: 10px 300px 25px 1px;
+  display: flex;
+  align-items: start;
+  flex-direction: column;
 }
 .Choice {
   margin-top: 10px;
   white-space: nowrap;
-}
-.ChoiceText,
-.ChoiceNumber,
-.ChoiceButton {
-  margin: 10px 20px 5px 0px;
 }
 .Button {
   display: flex;

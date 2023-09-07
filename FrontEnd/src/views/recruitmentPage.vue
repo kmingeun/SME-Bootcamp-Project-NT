@@ -377,7 +377,9 @@ export default{
     endDate: this.endDate,//완료
   };
 
-    axios.post('http://localhost:3000/project/createProjects', projectData)
+  axios.post('http://localhost:3000/project/createProjects', projectData, {
+  withCredentials: true, // Include credentials (cookies)
+})
         .then(response => {
           console.log('등록 성공!', response.data);
       alert("등록 완료!")

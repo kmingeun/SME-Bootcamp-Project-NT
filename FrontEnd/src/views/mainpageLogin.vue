@@ -202,7 +202,7 @@
             {{ formatDate(post.StartDate) }} ~ {{ formatDate(post.EndDate) }}
           </p>
           <a
-            :href="`/post/?id=${post.ProjectId}`"
+            :href="`/post?id=${post.ProjectId}`"
             class="btn btn-primary"
             style="
               background: rgb(156, 156, 236);

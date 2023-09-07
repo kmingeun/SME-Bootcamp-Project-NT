@@ -39,7 +39,7 @@ const routes = [
     { path: '/showPost4', name:'showPost4', component: showPost4 },
     { path: '/recruitmentPage', name:'recruitmentPage', component: recruitmentPage },
     { path: '/passwordChange/:token', name:'passwordChange', component: passwordChange },
-    { path: '/post/:id', name:'showPostAll', component: showPostAll },
+    { path: '/post', name:'showPostAll', component: showPostAll },
   ];
 
 // 라우터 생성
